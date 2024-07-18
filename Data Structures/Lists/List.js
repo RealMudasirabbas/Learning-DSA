@@ -91,6 +91,39 @@ class List {
 
         return false;
     }
+    // insert element only if element is larger than any element already present in the list
+    insertLargerElement(element){
+        
+        for (let i = 0; i < this.dataStore.length; i++) {
+            
+            
+            
+            if (element > this.dataStore.every(el => element > el)) {
+                this.append(element);
+                return true
+            } else {
+                return false
+            }
+            
+        }
+    }
+    // insert element only if element is smaller than any element already present in the list
+
+    insertsmallerElement(element){
+        
+        for (let i = 0; i < this.dataStore.length; i++) {
+            
+
+
+            if (element > this.dataStore.every(el => element < el)) {
+                this.append(element);
+                return true
+            } else {
+                return false
+            }
+            
+        }
+    }
 }
 
 const names = new List();
