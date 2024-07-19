@@ -1,25 +1,21 @@
 class List {
-    constructor(){
-
+    constructor() {
         this.listSize = 0;
         this.position = 0;
         this.dataStore = [];
     }
 
     clear() {
-        delete this.dataStore;
         this.dataStore = [];
-        this.listSize =  0;
+        this.listSize = 0;
         this.position = 0;
     }
 
     find(element) {
         for (let i = 0; i < this.dataStore.length; i++) {
-            
             if (element === this.dataStore[i]) {
                 return i;
             }
-            
         }
         return -1;
     }
@@ -27,107 +23,92 @@ class List {
     toString() {
         return this.dataStore;
     }
-    insert(element,afterPostion) {
-        const foundPosition = this.find(afterPostion);
 
+    insert(element, afterPosition) {
+        const foundPosition = this.find(afterPosition);
         if (foundPosition > -1) {
-            
-            this.dataStore.splice(foundPosition + 1,0,element);
+            this.dataStore.splice(foundPosition + 1, 0, element);
             ++this.listSize;
             return true;
         }
         return false;
     }
+
     append(element) {
         this.dataStore[this.listSize++] = element;
     }
+
     remove(element) {
         const foundElementAt = this.find(element);
         if (foundElementAt > -1) {
-            this.dataStore.splice(foundElementAt,1);
+            this.dataStore.splice(foundElementAt, 1);
             --this.listSize;
             return true;
         }
-        return false
+        return false;
     }
+
     front() {
         this.position = 0;
     }
+
     end() {
-        this.listSize - 1;
+        this.position = this.listSize - 1;
     }
+
     prev() {
         if (this.position > 0) {
             --this.position;
         }
     }
+
     next() {
         if (this.position <= this.listSize - 1) {
-
-            ++this.position
-            
-        } 
+            ++this.position;
+        }
     }
+
     length() {
         return this.listSize;
     }
+
     currentPosition() {
         return this.position;
     }
+
     moveTo(position) {
         this.position = position;
     }
+
     getElement() {
         return this.dataStore[this.position];
     }
-    contains(element) {
-        for (let i = 0; i < this.dataStore.length; i++) {
-            
-            if (element === this.dataStore[i]) {
-                
-                return true;
-            }
-        }
 
+    contains(element) {
+        return this.find(element) > -1;
+    }
+
+    // Insert element only if it is larger than any element already present in the list
+    insertLargerElement(element) {
+        if (this.dataStore.every((el) => element > el)) {
+            this.append(element);
+            return true;
+        }
         return false;
     }
-    // insert element only if element is larger than any element already present in the list
-    insertLargerElement(element){
-        
-        for (let i = 0; i < this.dataStore.length; i++) {
-            
-            
-            
-            if (element > this.dataStore.every(el => element > el)) {
-                this.append(element);
-                return true
-            } else {
-                return false
-            }
-            
+
+    // Insert element only if it is smaller than any element already present in the list
+    insertSmallerElement(element) {
+        if (this.dataStore.every((el) => element < el)) {
+            this.append(element);
+            return true;
         }
-    }
-    // insert element only if element is smaller than any element already present in the list
-
-    insertsmallerElement(element){
-        
-        for (let i = 0; i < this.dataStore.length; i++) {
-            
-
-
-            if (element > this.dataStore.every(el => element < el)) {
-                this.append(element);
-                return true
-            } else {
-                return false
-            }
-            
-        }
+        return false;
     }
 }
 
+// Example usage
 const names = new List();
-
 names.append("Shariq");
 names.append("Mudasir");
 names.append("Shahab");
@@ -135,20 +116,9 @@ names.append("Tariq");
 names.append("Saqib");
 names.append("Shakeel");
 
-// names.front();
-// console.log(names.getElement());
-// names.next();
-// console.log(names.getElement());
-// names.next();
-// names.next();
-// names.prev();
-// console.log(names.getElement());
-
-// iterating through the list
-
-for(names.front();names.currentPosition() < names.length();names.next()){
-    console.log(names.getElement())
+// Iterating through the list
+for (names.front(); names.currentPosition() < names.length(); names.next()) {
+    console.log(names.getElement());
 }
 
-
-module.exports = List
+module.exports = List;

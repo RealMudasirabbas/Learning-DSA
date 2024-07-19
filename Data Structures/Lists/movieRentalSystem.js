@@ -14,22 +14,32 @@ function displayList(list) {
                 `${list.getElement().name}, ${list.getElement().movie}`,
             );
         } else {
-
             console.log(list.getElement());
         }
-        
     }
 }
 
-
-
-function checkOut(name, movie, filmsList, customerList) {
+function checkOut(name, movie, filmsList, customerList, rentedList) {
     if (filmsList.contains(movie)) {
         const customer = new Customer(name, movie);
         customerList.append(customer);
         filmsList.remove(movie);
+        rentedList.append(movie);
+        console.log(`\n${movie} has been checked out by ${name}.`);
+        console.log("\nRented Movies: \n");
+        displayList(rentedList);
     } else {
         console.log(`${movie} is not available`);
+    }
+}
+
+function checkIn(movie, filmsList, rentedList) {
+    if (rentedList.contains(movie)) {
+        rentedList.remove(movie);
+        filmsList.append(movie);
+        console.log(`\n${movie} has been checked in.`);
+    } else {
+        console.log(`${movie} was not rented.`);
     }
 }
 
@@ -58,16 +68,26 @@ const moviesArray = [
 
 const moviesList = new List();
 const customers = new List();
+const rentedMovies = new List();
 
 moviesArray.forEach((movie) => moviesList.append(movie));
 
 console.log("Available movies: \n");
 displayList(moviesList);
 
-checkOut("John Doe", "The Godfather", moviesList, customers);
+checkOut("John Doe", "The Godfather", moviesList, customers, rentedMovies);
+checkOut("Jane Doe", "Pulp Fiction", moviesList, customers, rentedMovies);
 
 console.log("\nCustomer Rentals: \n");
 displayList(customers);
+
+console.log("\nAvailable movies now: \n");
+displayList(moviesList);
+
+checkIn("The Godfather", moviesList, rentedMovies);
+
+console.log("\nRented Movies now: \n");
+displayList(rentedMovies);
 
 console.log("\nAvailable movies now: \n");
 displayList(moviesList);
